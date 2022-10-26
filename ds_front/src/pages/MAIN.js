@@ -1,22 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import Styled from 'styled-components';
 const MAIN = () => {
 
+    const onSubmit = () => {
+        console.log('강의 신청 버튼 클릭 시');
+        getWallet();
+    };
 
-  return (
-    <Container>
-        <Header>
-            <div>WEB3 University</div>
-        </Header>
-        <CardContainer>
-        <Card>
-            강의정보~~
-        </Card>
-        <Button>GET STARTED</Button>
-        </CardContainer>
-    </Container>
-  )
+    const [account, setAccount] = useState('');
+
+    const getWallet = async() => {
+        try {
+            
+            if(window.ethereum){
+                const accounts = await window.ethereum.request({
+                    method: "eth_requestAccounts",
+                });
+                console.log(accounts);
+                setAccount(accounts[0]);
+            }else{
+                console.log('메타마스크 설치 안됨 => 설치페이지 이동');
+                window.open('https://metamask.io/download.html');
+            }
+        } catch (error) {
+            console.log('메타마스크 설치는 됐지만 주소 없을 경우');
+            console.log(error);
+        }
+    }
+
+    return (
+        <Container>
+            <Header>
+                WEB3 University
+            </Header>
+            <CardContainer>
+                <Card>
+                    강의정보~~
+                </Card>
+                <Button onClick={onSubmit}>GET STARTED</Button>
+            </CardContainer>
+        </Container>
+    )
 }
 
 export default MAIN;
@@ -35,8 +60,6 @@ margin-left: 40px;
 align-items: center;
 font-weight: 900;
 font-size: 20px; 
-
-
 `
 const CardContainer = styled.div`
 height: 600px;
