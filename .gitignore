@@ -1,5 +1,4 @@
 ds_contracts/node_modules
-ds_contracts/.env
 ds_contracts/coverage
 ds_contracts/coverage.json
 ds_contracts/typechain
