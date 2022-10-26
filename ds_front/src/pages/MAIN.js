@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import Styled from 'styled-components';
+import axios from 'axios';
+
 const MAIN = () => {
 
     const onSubmit = () => {
@@ -17,8 +19,20 @@ const MAIN = () => {
                 const accounts = await window.ethereum.request({
                     method: "eth_requestAccounts",
                 });
-                console.log(accounts);
+
                 setAccount(accounts[0]);
+                /* 연결 테스트 코드
+                axios.get('http://localhost:3000/web3/userinfo')
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err));
+                */
+               let data = {
+                _pubkey: accounts[0], 
+                _course_name: "web3.0 지갑 만들기"
+               }
+               axios.post('http://localhost:3000/web3/register', data)
+               .then((res) => console.log(res))
+               .catch((err) => console.log(err));
             }else{
                 console.log('메타마스크 설치 안됨 => 설치페이지 이동');
                 window.open('https://metamask.io/download.html');
