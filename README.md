@@ -7,7 +7,7 @@
 
 👨🏻‍💻 [installed npm module]
 =========================
-   cd ds_contracts
+    * cd ds_contracts
     * npm install express-routes
     * npm install openzeppelin-solidity
     * npx hardhat init 
