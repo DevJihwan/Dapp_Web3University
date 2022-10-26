@@ -1,11 +1,11 @@
-node_modules
-.env
-coverage
-coverage.json
-typechain
-typechain-types
+ds_contracts/node_modules
+ds_contracts/.env
+ds_contracts/coverage
+ds_contracts/coverage.json
+ds_contracts/typechain
+ds_contracts/typechain-types
 
 #Hardhat files
-cache
-artifacts
+ds_contracts/cache
+ds_contracts/artifacts
 
