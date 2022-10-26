@@ -1,6 +1,7 @@
-require("dotenv").config();
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
+require("dotenv").config();
+
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -24,7 +25,8 @@ task("deploy", "Deploy the smart contracts", async(taskArgs, hre) => {
     const completion = await Completion.deploy("Completion Contract", "CPL");
   
     await completion.deployed();
-  
+    
+    
     await hre.run("verify:verify", {
       address: completion.address,
       constructorArguments: [
@@ -32,6 +34,7 @@ task("deploy", "Deploy the smart contracts", async(taskArgs, hre) => {
         "CPL"
       ]
     })
+    
   
   });
 
@@ -40,7 +43,7 @@ module.exports = {
   solidity: "0.8.17",
   networks: {
     mumbai: {
-      url: process.env.TESTNET_RPC,
+      url: "https://matic-testnet-archive-rpc.bwarelabs.com",
       accounts: [process.env.PRIVATE_KEY]
     },
   },
