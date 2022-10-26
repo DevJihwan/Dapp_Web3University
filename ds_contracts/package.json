@@ -1,7 +1,14 @@
 {
   "dependencies": {
-    "express-routes": "^1.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
     "openzeppelin-solidity": "^4.6.0"
+  },
+  "scripts": {
+    "start": "node ./app.js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",

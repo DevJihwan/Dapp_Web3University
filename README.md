@@ -11,3 +11,4 @@
     * npm install express-routes
     * npm install openzeppelin-solidity
     * npx hardhat init 
+    * npm install mysql  
