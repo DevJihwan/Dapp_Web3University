@@ -9,6 +9,15 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     console.log(account.address);
   }
 });
+
+task("balance", "Prints the balance of accounts")
+  .addParam("account", "The account's address")
+  .setAction(async (taskArgs) => {
+    const balance = await ethers.provider.getBalance(taskArgs.account);
+
+    console.log("Polygon balance : " + ethers.utils.formatEther(balance) + " Matic");
+  });
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.17",
