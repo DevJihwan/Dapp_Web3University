@@ -11,10 +11,11 @@
  * npm install express-routes
  * npm install openzeppelin-solidity
  * npx hardhat init 
- * npm install mysql  
- * npm install dotenv --save
+ * npm install mysql   
+ * npm install dotenv --save (polygonscan api key 접근을 위해 설치)
  * npm install --save-dev @nomiclabs/hardhat-waffle 'ethereum-waffle@^3.0.0' @nomiclabs/hardhat-ethers 'ethers@^5.0.0'
-
+ * npm install --save-dev chai (hardhat test를 위해 설치)
+ * npm install @nomiclabs/hardhat-etherscan
 
 💻 [hardhat]
 ===========
@@ -36,3 +37,5 @@
     * 2️⃣ Hardhat task 관련 
         * npx hardhat <task name>
         * ex. npx hardhat accounts --network mumbai (mumbai network option)
+    * 3️⃣ Hardhat Test 관련 
+        * npx hardhat test

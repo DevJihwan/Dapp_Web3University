@@ -18,6 +18,23 @@ task("balance", "Prints the balance of accounts")
     console.log("Polygon balance : " + ethers.utils.formatEther(balance) + " Matic");
   });
 
+task("deploy", "Deploy the smart contracts", async(taskArgs, hre) => {
+
+    const Completion = await hre.ethers.getContractFactory("Completion");
+    const completion = await Completion.deploy("Completion Contract", "CPL");
+  
+    await completion.deployed();
+  
+    await hre.run("verify:verify", {
+      address: completion.address,
+      constructorArguments: [
+        "Completion Contract",
+        "CPL"
+      ]
+    })
+  
+  });
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.17",
