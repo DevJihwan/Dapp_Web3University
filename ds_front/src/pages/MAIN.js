@@ -2,30 +2,37 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import Styled from 'styled-components';
 import axios from 'axios';
-
+import {
+    mintTokenContract,
+    web3,
+  } from "../web3Config.js";
+import { ethers } from 'ethers';
 const MAIN = () => {
 
+    //앗 넹 어떤 방식인지 잘 모르겠지만
     const onSubmit = () => {
         console.log('강의 신청 버튼 클릭 시');
+
         getWallet();
     };
-
     const [account, setAccount] = useState('');
+
 
     const getWallet = async() => {
         try {
-            
             if(window.ethereum){
                 const accounts = await window.ethereum.request({
                     method: "eth_requestAccounts",
                 });
 
+                console.log(accounts[0])
                 setAccount(accounts[0]);
                 /* 연결 테스트 코드
                 axios.get('http://localhost:3000/web3/userinfo')
                 .then((res) => console.log(res))
                 .catch((err) => console.log(err));
                 */
+               /*
                let data = {
                 _pubkey: accounts[0], 
                 _course_name: "web3.0 지갑 만들기"
@@ -33,6 +40,12 @@ const MAIN = () => {
                axios.post('http://localhost:3000/web3/register', data)
                .then((res) => console.log(res))
                .catch((err) => console.log(err));
+               */
+              
+               let test = await mintTokenContract.methods.mint(accounts[0], "ipfs://QmTy7h4rzcuQTWDaqVst7wsfs5DsM4QDh8fjqCewraHARK")
+               //let test = await mintTokenContract.methods.mint("ipfs://QmTy7h4rzcuQTWDaqVst7wsfs5DsM4QDh8fjqCewraHARK")
+               //.send();
+               console.log(test);
             }else{
                 console.log('메타마스크 설치 안됨 => 설치페이지 이동');
                 window.open('https://metamask.io/download.html');
