@@ -9,13 +9,14 @@
 =========================
  * cd ds_contracts
  * npm install express-routes
- * npm install openzeppelin-solidity
+ * npm install openzeppelin-solidity@4.3.2
  * npx hardhat init 
  * npm install mysql   
  * npm install dotenv --save (polygonscan api key 접근을 위해 설치)
  * npm install --save-dev @nomiclabs/hardhat-waffle 'ethereum-waffle@^3.0.0' @nomiclabs/hardhat-ethers 'ethers@^5.0.0'
  * npm install --save-dev chai (hardhat test를 위해 설치)
  * npm install @nomiclabs/hardhat-etherscan (스컨 배포 후 검증용)
+ * npm install --save-dev @nomiclabs/hardhat-web3 web3
 
 💻 [hardhat]
 ===========

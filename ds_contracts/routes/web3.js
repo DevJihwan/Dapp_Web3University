@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const mysql = require('mysql');
+const { hrtime } = require('process');
+const hre = require('hardhat');
+const { ethers } = require('hardhat');
 
 const connection = mysql.createConnection({
     host : 'localhost',
@@ -88,5 +91,57 @@ router.post("/completion", async (req, res) => {
         }
     });
 });
+
+
+/*
+* Minting NFT
+*/
+router.post("/minting", async (req, res) => {
+
+    console.log(" ++++++++++ Start minting ++++++++++ ");
+
+    //NFT 민팅 스마트컨트랙트 주소
+    const _address = '0xfbfeD9cfbcA305481bB9fcd42959A2baaC198bD9';
+    //NFT 민팅 토큰 URI (mint 함수 파라미터)
+    const _tokenURI = 'ipfs://QmTy7h4rzcuQTWDaqVst7wsfs5DsM4QDh8fjqCewraHARK';
+
+    //const _pubkey = "0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb"
+
+    //NFT 민팅 스마트컨트랙트 abi 호출 
+    const _contract = require("../artifacts/contracts/Completion.sol/Completion.json");
+    const _contractInterface = _contract.abi;
+
+    const privateKey = `0x${process.env.PRIVATE_KEY}`;
+    const wallet = new ethers.Wallet(privateKey);
+    console.log(" ++++++++++ Start minting 00 ++++++++++ " + wallet);
+
+    let provider = ethers.provider;
+
+    wallet.provider = provider;
+    const singer = wallet.connect(provider);
+    console.log(" ++++++++++ Start minting 01 ++++++++++ " + singer);
+
+    //컨트랙트 생성 
+    const Contract = new ethers.Contract(_address, _contractInterface, singer);
+    console.log(" ++++++++++ Start minting 02 ++++++++++ " + Contract);
+
+    //민팅실행
+    await Contract.mint(_tokenURI)
+    .then((tx) => {
+        tx.wait(5);
+    })
+    .then((receipt) => {
+        console.log(`Confirmed! Your transaction receipt is: ${receipt.transactionHash}`);
+    })
+    .catch((e) => {
+        console.log("Something went wrong", e);
+    })
+
+
+    //console.log(" ++++++++++ Start minting 02 ++++++++++ " + await Contract.tokenURI(0));
+
+    
+});
+
 
 module.exports = router;
