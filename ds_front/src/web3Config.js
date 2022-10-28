@@ -90,6 +90,11 @@ const mintTokenAbi =[
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
 				"internalType": "string",
 				"name": "_tokenURI",
 				"type": "string"
@@ -376,7 +381,7 @@ const mintTokenAbi =[
 		"type": "function"
 	}
 ]
-const mintTokenAddress = "0x1BBDCe4762765fE545030Ca1d1d48Df18B0D2c89";
+export const mintTokenAddress = "0xfbfeD9cfbcA305481bB9fcd42959A2baaC198bD9";
 
 export const web3 = new Web3(window.ethereum);
 

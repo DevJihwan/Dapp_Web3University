@@ -41,7 +41,12 @@ const MAIN = () => {
 
                axios.post('http://localhost:3000/web3/register', data)
                .then((res) => {
-                mint(accounts[0]);
+                    axios.post('http://localhost:3000/web3/minting', {})
+                    .then((res) => {
+                        console.log(res);
+                       // navigation('/detail');
+                    });
+                    navigation('/detail');
                 console.log(res);
                })
                .catch((err) => console.log(err));
