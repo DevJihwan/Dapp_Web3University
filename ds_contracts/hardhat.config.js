@@ -60,7 +60,8 @@ module.exports = {
       url: process.env.TESTNET_RPC,
       accounts: [
         process.env.PRIVATE_KEY,
-      ]
+      ],
+      gas: 0x1fffffffffffff,
     }
   },
   etherscan: {
