@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import Header from '../components/Header';
 
 const MYPAGE = () => {
   return (
@@ -17,13 +18,4 @@ const Container = styled.div`
 width: 100vw;
 height: 100vh;
 background: #fff;
-`
-const Header = styled.div`
-height: 70px;
-display: flex;
-color: #fff;
-margin-left: 40px;
-align-items: center;
-font-weight: 900;
-font-size: 20px; 
 `

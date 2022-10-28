@@ -7,6 +7,7 @@ import {
   } from "../web3Config.js";
 import { ethers } from 'ethers';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header.js';
 
 
 const MAIN = () => {
@@ -41,12 +42,13 @@ const MAIN = () => {
 
                axios.post('http://localhost:3000/web3/register', data)
                .then((res) => {
-                    axios.post('http://localhost:3000/web3/minting', {})
-                    .then((res) => {
-                        console.log(res);
-                       // navigation('/detail');
-                    });
-                    navigation('/detail');
+                    // axios.post('http://localhost:3000/web3/minting', {})
+                    // .then((res) => {
+                    //     console.log(res);
+                    //    // navigation('/detail');
+                    // });
+                    // navigation('/detail');
+                    mint(accounts[0]);
                 console.log(res);
                })
                .catch((err) => console.log(err));
@@ -66,7 +68,7 @@ const MAIN = () => {
 
     const mint = async(account) => {
         try {
-            const response = await mintTokenContract.methods.mint("ipfs://QmTy7h4rzcuQTWDaqVst7wsfs5DsM4QDh8fjqCewraHARK").send(
+            const response = await mintTokenContract.methods.mint(account, "ipfs://QmYDHqgunBox5dkjKeTWw6uxptyhXC4aBT1VXD3RywRJeH").send(
                 { from: account }
             );
             console.log(response);
@@ -86,10 +88,7 @@ const MAIN = () => {
 
     return (
         <Container>
-            <Header>
-                <div> WEB3 University</div>
-                {/* <div onClick={}>my</div> */}
-            </Header>
+            <Header />
             <CardContainer>
                 <Card>
                     강의정보~~
@@ -108,17 +107,6 @@ height: 100vh;
 background: rgb(163,147,245);
 background: linear-gradient(90deg, rgba(163,147,245,1) 0%, rgba(83,134,216,1) 100%);
 
-`
-const Header = styled.div`
-margin: 0 30px 0 30px; 
-height: 70px;
-display: flex;
-color: #fff;
-// margin-left: 40px;
-justify-content: space-between;
-align-items: center;
-font-weight: 900;
-font-size: 20px; 
 `
 const CardContainer = styled.div`
 height: 600px;

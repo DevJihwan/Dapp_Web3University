@@ -1,9 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 const Header = () => {
+
+    const navigate = useNavigate();
+const onClick = () => {
+    navigate('/mypage')
+}
+
   return (
     <HeaderContainer>
-    WEB3 University
+        <div>WEB3 University</div>
+        <Button onClick={onClick}>my page</Button>
     </HeaderContainer>
   )
 }
@@ -21,7 +30,9 @@ export default Header;
 // background: rgb(163,147,245);
 // background: linear-gradient(90deg, rgba(163,147,245,1) 0%, rgba(83,134,216,1) 100%);
 // `
-
+const Button = styled.div`
+cursor: pointer;
+`
 const HeaderContainer = styled.div`
 padding: 0 30px 0 30px; 
 height: 70px;
