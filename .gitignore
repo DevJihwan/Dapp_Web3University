@@ -6,5 +6,4 @@ ds_contracts/typechain-types
 
 #Hardhat files
 ds_contracts/cache
-ds_contracts/artifacts
 

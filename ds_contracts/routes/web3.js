@@ -103,7 +103,7 @@ router.post("/minting", async (req, res) => {
     // NFT 민팅 스마트컨트랙트 주소
     const _address = '0xfbfeD9cfbcA305481bB9fcd42959A2baaC198bD9';
     // NFT 민팅 토큰 URI (mint 함수 파라미터)
-    const _tokenURI = 'ipfs://QmTy7h4rzcuQTWDaqVst7wsfs5DsM4QDh8fjqCewraHARK';
+    const _tokenURI = 'ipfs://QmYDHqgunBox5dkjKeTWw6uxptyhXC4aBT1VXD3RywRJeH';
 
     // NFT 민팅 스마트컨트랙트 abi 호출 
     const _contract = require("../artifacts/contracts/Completion.sol/Completion.json");
