@@ -40,3 +40,7 @@
         * ex. npx hardhat accounts --network mumbai (mumbai network option)
     * 3️⃣ Hardhat Test 관련 
         * npx hardhat test
+
+[참고 docs]
+==========
+    * https://docs.ethers.io/v5/api/providers/api-providers/ (ether.js)

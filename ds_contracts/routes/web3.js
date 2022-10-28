@@ -100,46 +100,57 @@ router.post("/minting", async (req, res) => {
 
     console.log(" ++++++++++ Start minting ++++++++++ ");
 
-    //NFT 민팅 스마트컨트랙트 주소
+    // NFT 민팅 스마트컨트랙트 주소
     const _address = '0xfbfeD9cfbcA305481bB9fcd42959A2baaC198bD9';
-    //NFT 민팅 토큰 URI (mint 함수 파라미터)
+    // NFT 민팅 토큰 URI (mint 함수 파라미터)
     const _tokenURI = 'ipfs://QmTy7h4rzcuQTWDaqVst7wsfs5DsM4QDh8fjqCewraHARK';
 
-    //const _pubkey = "0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb"
-
-    //NFT 민팅 스마트컨트랙트 abi 호출 
+    // NFT 민팅 스마트컨트랙트 abi 호출 
     const _contract = require("../artifacts/contracts/Completion.sol/Completion.json");
     const _contractInterface = _contract.abi;
 
+    // 지갑 연결 : 환경설정에 있는 개인키 호출
     const privateKey = `0x${process.env.PRIVATE_KEY}`;
     const wallet = new ethers.Wallet(privateKey);
-    console.log(" ++++++++++ Start minting 00 ++++++++++ " + wallet);
+    console.log(" ++++++++++ wallet ++++++++++ " + wallet);
 
-    let provider = ethers.provider;
+    // 지갑 연결 : 연결된 지갑 주소 확인용
+    const _walletAddress = await wallet.getAddress();
+    console.log(" ++++++++++ _walletAddress ++++++++++ " + _walletAddress);
+
+    // 지갑 연결 : provider RPC 연결 (ether.js에서 RPC 설정 안해주면 defult로 로컬로 연결됨)
+    let provider = new ethers.providers.JsonRpcProvider(process.env.TESTNET_RPC);
+
+    // 지갑 연결 : 연결된 네트워크 확인용 
+    const _name = await provider.getNetwork()
+    console.log(" ++++++++++ PROVIDER ++++++++++ " + _name.name); //maticmum : Polgon testnet (ether.js 공식 docs 참고)
+
+    // 가스비 확인용
+    const _gasPrice = await provider.getGasPrice();
+    console.log(" ++++++++++ _gasPrice ++++++++++ " + _gasPrice);
 
     wallet.provider = provider;
+
     const singer = wallet.connect(provider);
-    console.log(" ++++++++++ Start minting 01 ++++++++++ " + singer);
+    console.log(" ++++++++++ singer.getAddress() ++++++++++ " + await singer.getAddress());
+
+    // 지갑 연결 : 연결된 지갑 잔액 확인 
+    const _getBalance = await singer.getBalance();
+    console.log(" ++++++++++ _getBalance ++++++++++ " + _getBalance);
 
     //컨트랙트 생성 
-    const Contract = new ethers.Contract(_address, _contractInterface, singer);
-    console.log(" ++++++++++ Start minting 02 ++++++++++ " + Contract);
+    const intanceContract = new ethers.Contract(_address, _contractInterface, singer);
+    console.log(" ++++++++++ intanceContract ++++++++++ " + intanceContract);  
 
     //민팅실행
-    await Contract.mint(_tokenURI)
-    .then((tx) => {
-        tx.wait(5);
-    })
-    .then((receipt) => {
-        console.log(`Confirmed! Your transaction receipt is: ${receipt.transactionHash}`);
-    })
-    .catch((e) => {
-        console.log("Something went wrong", e);
-    })
+    const tx = await intanceContract.mint(_tokenURI);
+
+    const receipt = await tx.wait();
+    console.log(" ++++++++++ receipt ++++++++++ " + receipt);
 
 
-    //console.log(" ++++++++++ Start minting 02 ++++++++++ " + await Contract.tokenURI(0));
-
+    console.log(" ++++++++++ End minting ++++++++++ ");
+    
     
 });
 
