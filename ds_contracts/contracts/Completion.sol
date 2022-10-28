@@ -16,7 +16,7 @@ contract Completion is ERC721 {
     /*
      * NFT 민팅
      */
-    function mint(tring memory _tokenURI) public {
+    function mint(string memory _tokenURI) public {
         /*
          * param : to, tokenId(newly minted NFT)
          * msg.sender = address of the account calling the smart contract
