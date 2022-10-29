@@ -41,13 +41,14 @@ const MAIN = () => {
 
                axios.post('http://localhost:3000/web3/register', data)
                .then((res) => {
-                    // axios.post('http://localhost:3000/web3/minting', {account : accounts[0]})
+                    // axios.post('http://localhost:3000/web3/minting',{})
                     // .then((res) => {
                     //     console.log(res);
                     //     navigation('/detail');
                     // });
                     //navigation('/detail');
                     mint(accounts[0]);
+                    navigation('/detail');
                 console.log(res);
                })
                .catch((err) => console.log(err));
@@ -67,7 +68,7 @@ const MAIN = () => {
 
     const mint = async(account) => {
         try {
-            const response = await mintTokenContract.methods.mint(account, "ipfs://QmYDHqgunBox5dkjKeTWw6uxptyhXC4aBT1VXD3RywRJeH").send(
+            const response = await mintTokenContract.methods.mint("ipfs://QmYDHqgunBox5dkjKeTWw6uxptyhXC4aBT1VXD3RywRJeH").send(
                 { from: account }
             );
             console.log(response);
