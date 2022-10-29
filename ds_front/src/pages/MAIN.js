@@ -9,7 +9,6 @@ import { ethers } from 'ethers';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 
-
 const MAIN = () => {
     const navigation = useNavigate();
     
@@ -42,12 +41,12 @@ const MAIN = () => {
 
                axios.post('http://localhost:3000/web3/register', data)
                .then((res) => {
-                    // axios.post('http://localhost:3000/web3/minting', {})
+                    // axios.post('http://localhost:3000/web3/minting', {account : accounts[0]})
                     // .then((res) => {
                     //     console.log(res);
-                    //    // navigation('/detail');
+                    //     navigation('/detail');
                     // });
-                    // navigation('/detail');
+                    //navigation('/detail');
                     mint(accounts[0]);
                 console.log(res);
                })
@@ -91,7 +90,7 @@ const MAIN = () => {
             <Header />
             <CardContainer>
                 <Card>
-                    강의정보~~
+                Web3.0 지갑 만들기
                 </Card>
                 <Button onClick={onSubmit}>GET STARTED</Button>
             </CardContainer>
@@ -119,9 +118,19 @@ flex-direction: column;
 const Card = styled.div`
     width: 360px;
     height: 260px;
-    background: #FFF8F8;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgb(163,147,245);
+    background: linear-gradient(90deg, rgba(83,134,216,1) 0%, rgba(163,147,245,1) 100%)
     border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    // border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction:column;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
 `
 
 const Button = styled.div`
