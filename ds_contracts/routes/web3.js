@@ -38,13 +38,13 @@ router.post("/register", async (req, res) => {
 
     console.log(" ++++++++++ userinfo register ++++++++++ ");
     //프론트에서 넘겨받는 pubkey & course_name 
-    const {_pubkey, _course_name} = req.body;
-    console.log('[_pubkey]:',_pubkey,'_course_name:', _course_name)
+    const {_pubkey, _courseName} = req.body;
+    console.log('[_pubkey]:',_pubkey,'_courseName:', _courseName)
     //수강 신청했을 때는 0으로 셋팅, 수료 완료 후 1로 변경 예정 
-    let _course_completion = "0";
+    let _tokenId = 0;
 
     //insert
-    let insertQuery = `INSERT INTO userinfo VALUES("${_pubkey}","${_course_name}","${_course_completion}")`;
+    let insertQuery = `INSERT INTO userinfo VALUES("${_pubkey}","${_courseName}","${_tokenId}")`;
     console.log(insertQuery);
     console.log(" ++++++++++ result insert query ++++++++++ ");
     connection.query(insertQuery, (error, rows, fiedls) => {
@@ -64,13 +64,11 @@ router.post("/completion", async (req, res) => {
 
     console.log(" ++++++++++ course completion ++++++++++ ");
     //프론트에서 파라미터로 공개키 받아서 셋팅 예정 
-    const _pubkey = req.body;
-    console.log('[_pubkey]:',_pubkey);
-    
-    let _boolean = "1"; //false : 0, true: 1 
+    const {_pubkey, _tokenId} = req.body;
+    console.log('[_pubkey]:',_pubkey,'[_tokenId]:',_tokenId);
 
     //업데이트 
-    let updataQuery = `UPDATE userinfo SET course_completion = "${_boolean}" WHERE pubkey = "${_pubkey}"`;
+    let updataQuery = `UPDATE userinfo SET tokenId = "${_tokenId}" WHERE pubkey = "${_pubkey}"`;
     //셀렉트
     let selectQuery = `select * from userinfo WHERE pubkey = "${_pubkey}"`;
     
@@ -153,6 +151,32 @@ router.post("/minting", async (req, res) => {
     
     
 });
+
+/*
+* opensea testnet api : list of asset 
+*/
+router.get("/mypage", async (req, res) => {
+
+    //호출할 공개키
+    const pubkey = '0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb';
+
+    //오픈씨 sdk 실행
+    sdk.retrievingAssetsRinkeby({
+        owner: pubkey,
+        order_direction: 'desc',
+        offset: '0',
+        limit: '20',
+        include_orders: 'false'
+      })
+        .then((result) => {
+            console.log(result);
+            res.json({ message: "ok", data: result });
+        })
+        .catch(err => console.error(err));
+});
+
+
+
 
 
 module.exports = router;
