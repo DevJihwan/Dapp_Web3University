@@ -38,7 +38,7 @@ function App() {
        <Routes>
           <Route path="/" element={<MAIN />} />
           <Route path="/detail" element={<DETAIL/>} />
-          <Route path="/mypage" element={<MYPAGE/>} />
+          <Route path="/mypage/:publicKey" element={<MYPAGE/>} />
           <Route path="/complete" element={<COMPLETE/>} /> 
        </Routes>
   );
