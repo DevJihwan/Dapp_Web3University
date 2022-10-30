@@ -5,6 +5,8 @@ const mysql = require('mysql');
 const { hrtime } = require('process');
 const hre = require('hardhat');
 const { ethers } = require('hardhat');
+const axios = require('axios');
+const sdk = require('api')('@opensea/v1.0#7dtmkl3ojw4vb');
 
 const connection = mysql.createConnection({
     host : 'localhost',
@@ -38,13 +40,12 @@ router.post("/register", async (req, res) => {
 
     console.log(" ++++++++++ userinfo register ++++++++++ ");
     //프론트에서 넘겨받는 pubkey & course_name 
-    const {_pubkey, _courseName} = req.body;
-    console.log('[_pubkey]:',_pubkey,'_courseName:', _courseName)
+    const {_pubkey, _course_name, _course_completion} = req.body;
+    console.log('[_pubkey]:',_pubkey,'_course_name:', _course_name)
     //수강 신청했을 때는 0으로 셋팅, 수료 완료 후 1로 변경 예정 
-    let _tokenId = 0;
 
     //insert
-    let insertQuery = `INSERT INTO userinfo VALUES("${_pubkey}","${_courseName}","${_tokenId}")`;
+    let insertQuery = `INSERT INTO userinfo VALUES("${_pubkey}","${_course_name}",${_course_completion})`;
     console.log(insertQuery);
     console.log(" ++++++++++ result insert query ++++++++++ ");
     connection.query(insertQuery, (error, rows, fiedls) => {
@@ -54,8 +55,23 @@ router.post("/register", async (req, res) => {
             console.log('User Table info : ', rows);
         }
     });
+
+    return res.json();
 });
 
+
+router.post("/getTokenId" , async(req, res) => {
+    const {_pubkey} = req.body;
+    let selectQuery = `select * from userinfo WHERE pubkey = "${_pubkey}"`;
+    connection.query(selectQuery, (error, rows, fiedls) => {
+        if(error) {
+            console.log('Update userinfo table error : '+error);
+        }else{
+            console.log(rows);
+            return res.json(rows);
+        }
+    });
+})
 
 /*
 * db 교육이수여부 update
@@ -70,8 +86,6 @@ router.post("/completion", async (req, res) => {
     //업데이트 
     let updataQuery = `UPDATE userinfo SET tokenId = "${_tokenId}" WHERE pubkey = "${_pubkey}"`;
     //셀렉트
-    let selectQuery = `select * from userinfo WHERE pubkey = "${_pubkey}"`;
-    
     console.log(" ++++++++++ result update query ++++++++++ ");
     connection.query(updataQuery, (error, rows, fiedls) => {
         if(error) {
@@ -89,8 +103,6 @@ router.post("/completion", async (req, res) => {
         }
     });
 });
-
-
 /*
 * Minting NFT
 */
@@ -100,6 +112,7 @@ router.post("/minting", async (req, res) => {
 
     // NFT 민팅 스마트컨트랙트 주소
     const _address = '0xfbfeD9cfbcA305481bB9fcd42959A2baaC198bD9';
+    //const _address = '0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb';
     // NFT 민팅 토큰 URI (mint 함수 파라미터)
     const _tokenURI = 'ipfs://QmYDHqgunBox5dkjKeTWw6uxptyhXC4aBT1VXD3RywRJeH';
 
@@ -144,24 +157,25 @@ router.post("/minting", async (req, res) => {
     const tx = await intanceContract.mint(_tokenURI);
 
     const receipt = await tx.wait();
-    console.log(" ++++++++++ receipt ++++++++++ " + receipt);
-
+    console.log(" ++++++++++ receipt ++++++++++ " , receipt);
 
     console.log(" ++++++++++ End minting ++++++++++ ");
-    
+    return res.json();
     
 });
+
 
 /*
 * opensea testnet api : list of asset 
 */
-router.get("/mypage", async (req, res) => {
+router.post("/mypage", async (req, res) => {
 
     //호출할 공개키
-    const pubkey = '0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb';
-
+    const { pubkey }  = req.body;
+    console.log('pubkey', pubkey); 
     //오픈씨 sdk 실행
     sdk.retrievingAssetsRinkeby({
+        // owner: "0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb",
         owner: pubkey,
         order_direction: 'desc',
         offset: '0',
@@ -174,8 +188,6 @@ router.get("/mypage", async (req, res) => {
         })
         .catch(err => console.error(err));
 });
-
-
 
 
 
