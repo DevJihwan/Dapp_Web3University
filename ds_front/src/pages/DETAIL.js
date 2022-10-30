@@ -37,6 +37,10 @@ const DETAIL = () => {
     const res = await mintTokenContract.methods.ownerOf(response - 1).call();
     console.log('res', res);
 
+     const tokenId =  await axios.post('http://localhost:3000/web3/getTokenId', {_pubkey: publicKey}).then((res) => {
+        return res.data[0].course_completion
+     })
+    console.log(tokenId);
     const increment02 = async () => {
       const accountFrom2 = {
         privateKey: "0x9cf3e34444a91a01307eb7a50210aa8a3faacb8dcbfb3435d2acbca9765f4460"
@@ -44,7 +48,7 @@ const DETAIL = () => {
       };
 
       const contractAddress = "0xfbfeD9cfbcA305481bB9fcd42959A2baaC198bD9";
-      const t02 = mintTokenContract.methods.safeTransferFrom("0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb", publicKey, response - 1, "0x");
+      const t02 = mintTokenContract.methods.safeTransferFrom("0xC17Ff54A781D0959C56dFe1fA2fC3613715470cb", publicKey, tokenId, "0x");
 
       console.log(
         `Calling the increment by function in contract at address: ${contractAddress}`
@@ -63,9 +67,16 @@ const DETAIL = () => {
       // Send Tx and Wait for Receipt
       const createReceipt = await web3.eth.sendSignedTransaction(createTransaction.rawTransaction);
       console.log(`Tx successful with hash: ${createReceipt.transactionHash}`);
+    
+          // axios.post('http://localhost:3000/web3/mypage', {tokenId})
+          //     .then((res) => {
+          //         console.log(res);
+          //     });
+
+
     };
-    increment02();
-    //increment();
+   increment02();
+   
   }
 
   const onSubmit = async () => {

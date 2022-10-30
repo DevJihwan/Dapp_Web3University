@@ -35,19 +35,28 @@ const MAIN = () => {
                 .catch((err) => console.log(err));
                 */
 
+                
+                await axios.post('http://localhost:3000/web3/minting', {})
+                .then((res) => {
+                                console.log(res);
+                                // navigation('/detail');
+                });
+
+                const tokenId = await mintTokenContract.methods.tokenCounter().call();
+
+                console.log(tokenId);
+                
                 let data = {
                     _pubkey: accounts[0],
-                    _course_name: "web3.0 지갑 만들기"
+                    _course_name: "web3.0 지갑 만들기",
+                    _course_completion: tokenId-1
                 };
-
                 axios.post('http://localhost:3000/web3/register', data)
                     .then((res) => {
-                        axios.post('http://localhost:3000/web3/minting', {})
-                            .then((res) => {
+
                                 console.log(res);
                                 navigation('/detail');
-                            });
-                        console.log(res);
+                          
                     })
                     .catch((err) => console.log(err));
 

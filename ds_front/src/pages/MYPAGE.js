@@ -29,11 +29,14 @@ const MYPAGE = () => {
       //0x94f43f12b117fd7Ed7e72DD6E873cB086f66A0CA
       const res = await mintTokenContract.methods.balanceOf(publickey).call();
 
-      const id = await mintTokenContract.methods.tokenCounter().call();
-      console.log(id - 1);
+      // const id = await mintTokenContract.methods.tokenCounter().call();
+      // console.log(id - 1);
 
+      const id =  await axios.post('http://localhost:3000/web3/getTokenId', {_pubkey: publickey}).then((res) => {
+        return res.data[0].course_completion
+     })
 
-      setTokenId(id - 1);
+      setTokenId(id);
       setError(false);
       console.log(res);
     } catch (error) {
